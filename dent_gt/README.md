@@ -22,5 +22,4 @@ This repository contains a modern dental clinic website integrated with a **Cari
 
 ---
 
-## 📂 Project Structure
 
