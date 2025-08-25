@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BrightSmile Dental Clinic</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Playfair+Display&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  <!-- Header & Navigation -->
+  <header>
+    <div class="container nav-wrapper">
+      <div class="logo" tabindex="0" aria-label="BrightSmile Dental Clinic logo">BrightSmile</div>
+      <nav>
+        <ul>
+          <li><a href="#home" class="active" aria-current="page">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#appointment">Appointment</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#hours">Working Hours</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home" role="banner" aria-label="Hero section with dental care message">
+    <div class="hero-content">
+      <h1>BrightSmile Dental Clinic</h1>
+      <p>Your Smile, Our Passion. Experience exceptional dental care with a golden touch.</p>
+      <button class="btn-primary" onclick="document.getElementById('appointment').scrollIntoView({behavior:'smooth'})" aria-label="Make an appointment">Make Appointment</button>
+    </div>
+  </section>
+
+  <!-- AI Caries Detection Section -->
+  <section class="ml-section" id="ml-detection" aria-label="AI Dental Caries Detection">
+    <div class="ml-container">
+      <h2>AI TEETH CARIES DETECTION</h2>
+      <label for="ml-image-upload">Upload Your Dental X-Ray:</label>
+      <input type="file" accept="image/*" id="ml-image-upload" aria-label="Upload X-Ray image" />
+      <div id="ml-preview"></div>
+      <button onclick="runMLDetection()" aria-label="Run AI cavity analysis">Do Caries Analysis</button>
+      <div id="ml-result" class="ml-result" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services container" id="services" aria-label="Dental Services">
+    <h2>Our Services</h2>
+    <div class="services-grid">
+
+      <article class="service-card" tabindex="0" aria-describedby="desc-whitening">
+        <img class="service-image" src="https://images.pexels.com/photos/3762441/pexels-photo-3762441.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350&w=550" alt="Teeth Whitening" loading="lazy" />
+        <div class="service-content">
+          <h3>Teeth Whitening <span aria-hidden="true">★</span></h3>
+          <p id="desc-whitening">Brighten your smile with our advanced whitening treatments that are safe and effective.</p>
+        </div>
+      </article>
+
+      <article class="service-card" tabindex="0" aria-describedby="desc-implants">
+        <img class="service-image" src="https://images.pexels.com/photos/6627564/pexels-photo-6627564.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350&w=550" alt="Dental Implants" loading="lazy" />
+        <div class="service-content">
+          <h3>Dental Implants <span aria-hidden="true">★</span></h3>
+          <p id="desc-implants">Restore your natural smile and chewing function with our reliable implants.</p>
+        </div>
+      </article>
+
+      <article class="service-card" tabindex="0" aria-describedby="desc-braces">
+        <img class="service-image" src="https://images.pexels.com/photos/6529107/pexels-photo-6529107.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350&w=550" alt="Braces and Invisalign" loading="lazy" />
+        <div class="service-content">
+          <h3>Braces & Invisalign <span aria-hidden="true">★</span></h3>
+          <p id="desc-braces">Straighten your teeth discreetly with our customized orthodontic options.</p>
+        </div>
+      </article>
+
+      <article class="service-card" tabindex="0" aria-describedby="desc-root-canal">
+        <img class="service-image" src="https://images.pexels.com/photos/6627574/pexels-photo-6627574.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350&w=550" alt="Root Canal Treatment" loading="lazy" />
+        <div class="service-content">
+          <h3>Root Canal Treatment <span aria-hidden="true">★</span></h3>
+          <p id="desc-root-canal">Pain-free root canal treatments to save natural teeth and prevent infection.</p>
+        </div>
+      </article>
+
+      <article class="service-card" tabindex="0" aria-describedby="desc-cleaning">
+        <img class="service-image" src="https://images.pexels.com/photos/16690231/pexels-photo-16690231.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350&w=550" alt="Tooth Cleaning" loading="lazy" />
+        <div class="service-content">
+          <h3>Tooth Cleaning <span aria-hidden="true">★</span></h3>
+          <p id="desc-cleaning">Professional cleaning for a healthy mouth and sparkling smile.</p>
+        </div>
+      </article>
+
+      <article class="service-card" tabindex="0" aria-describedby="desc-emergency">
+        <img class="service-image" src="https://images.pexels.com/photos/16098318/pexels-photo-16098318.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350&w=550" alt="Emergency Dental Care" loading="lazy" />
+        <div class="service-content">
+          <h3>Emergency Care <span aria-hidden="true">★</span></h3>
+          <p id="desc-emergency">Immediate treatment for dental emergencies available 24/7.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about container" id="about" aria-label="About BrightSmile Dental Clinic">
+    <h2>About Us</h2>
+    <p>At BrightSmile Dental Clinic, we combine advanced dental technology with compassionate care to provide the highest quality treatments. From routine checkups to cosmetic and emergency dentistry, your oral health is our priority.</p>
+  </section>
+
+  <!-- Appointment Form -->
+  <section class="appointment" id="appointment" aria-label="Appointment form">
+    <div class="appointment-container" role="form" aria-describedby="form-instructions">
+      <h2>Book Your Appointment</h2>
+      <p id="form-instructions" style="text-align:center; margin-bottom:1.5rem; font-weight:300; color:#333;">Fill in your details below and we will contact you to confirm your visit.</p>
+      <form id="appointmentForm" novalidate>
+        <input type="text" name="fullname" placeholder="Full Name" required aria-required="true" aria-label="Full Name" />
+        <input type="email" name="email" placeholder="Email Address" required aria-required="true" aria-label="Email Address" />
+        <input type="tel" name="phone" placeholder="Phone Number" required aria-required="true" aria-label="Phone Number" pattern="^\+?\d{7,15}$" />
+        <select name="service" required aria-required="true" aria-label="Select service">
+          <option value="" disabled selected>Select Service</option>
+          <option>Teeth Whitening</option>
+          <option>Dental Implants</option>
+          <option>Braces & Invisalign</option>
+          <option>Root Canal Treatment</option>
+          <option>Tooth Cleaning</option>
+          <option>Emergency Care</option>
+        </select>
+        <textarea name="message" placeholder="Additional Notes (Optional)" aria-label="Additional Notes"></textarea>
+        <button type="submit" aria-label="Submit appointment form">Submit</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Reviews Section -->
+  <section class="reviews" id="reviews" aria-label="Customer reviews and ratings">
+    <h2>Customer Reviews</h2>
+
+    <div class="reviews-grid" id="reviewsGrid" aria-live="polite" aria-atomic="true">
+      <article class="review-card">
+        <div class="review-author">Emily R.</div>
+        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <div class="review-text">The staff is incredibly friendly and the treatment was painless. Highly recommend!</div>
+      </article>
+      <article class="review-card">
+        <div class="review-author">James K.</div>
+        <div class="stars" aria-label="4 out of 5 stars">★★★★☆</div>
+        <div class="review-text">Great experience with my dental implants. The clinic is clean and modern.</div>
+      </article>
+      <article class="review-card">
+        <div class="review-author">Sophia L.</div>
+        <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+        <div class="review-text">Loved the teeth whitening service! My smile looks amazing.</div>
+      </article>
+    </div>
+
+    <div class="add-review-container" aria-label="Add a review form">
+      <h3>Leave a Review</h3>
+      <form id="reviewForm" novalidate>
+        <input type="text" id="reviewerName" placeholder="Your Name" required aria-required="true" aria-label="Your Name" />
+        <select id="reviewRating" required aria-required="true" aria-label="Rating">
+          <option value="" disabled selected>Rating</option>
+          <option value="5">★★★★★ 5 Stars</option>
+          <option value="4">★★★★☆ 4 Stars</option>
+          <option value="3">★★★☆☆ 3 Stars</option>
+          <option value="2">★★☆☆☆ 2 Stars</option>
+          <option value="1">★☆☆☆☆ 1 Star</option>
+        </select>
+        <textarea id="reviewMessage" placeholder="Your review" required aria-required="true" aria-label="Your review"></textarea>
+        <button type="submit" aria-label="Submit your review">Submit Review</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Working Hours -->
+  <section class="hours" id="hours" aria-label="Working days and hours">
+    <h2>Working Hours</h2>
+    <table class="hours-table" role="table" aria-describedby="hoursDesc">
+      <caption id="hoursDesc" class="sr-only">Clinic working days and hours</caption>
+      <thead>
+        <tr>
+          <th scope="col">Day</th>
+          <th scope="col">Hours</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Monday</td><td>8:00 AM - 6:00 PM</td></tr>
+        <tr><td>Tuesday</td><td>8:00 AM - 6:00 PM</td></tr>
+        <tr><td>Wednesday</td><td>8:00 AM - 6:00 PM</td></tr>
+        <tr><td>Thursday</td><td>8:00 AM - 6:00 PM</td></tr>
+        <tr><td>Friday</td><td>8:00 AM - 6:00 PM</td></tr>
+        <tr><td>Saturday</td><td>9:00 AM - 3:00 PM</td></tr>
+        <tr><td>Sunday</td><td>Closed</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-info" id="contact" aria-label="Contact information and social media">
+    <h2>Contact Us</h2>
+    <div class="contact-details">
+      <div class="contact-block" aria-label="Phone numbers">
+        <h3>Phone</h3>
+        <p><a href="tel:+15551234567" aria-label="Call primary phone number">+1 (555) 123-4567</a></p>
+        <p><a href="tel:+15557654321" aria-label="Call secondary phone number">+1 (555) 765-4321</a></p>
+      </div>
+      <div class="contact-block" aria-label="Email addresses">
+        <h3>Email</h3>
+        <p><a href="mailto:info@brightsmile.com" aria-label="Send email to info">info@brightsmile.com</a></p>
+        <p><a href="mailto:support@brightsmile.com" aria-label="Send email to support">support@brightsmile.com</a></p>
+      </div>
+      <div class="contact-block" aria-label="Social media links">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/BrightSmile" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com/BrightSmile" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="https://www.instagram.com/BrightSmile" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/company/brightsmile" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <p>© 2025 BrightSmile Dental Clinic. All rights reserved.</p>
+  </footer>
+
+  <!-- Custom Scripts -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
