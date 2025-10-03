@@ -7,9 +7,8 @@ import numpy as np
 import base64
 import random
 import hashlib
-from io import BytesIO
 
-# --- Eğitimde kullanılan BİREBİR UNet Modeli Tanımı ---
+# --- UNet Model Definition ---
 class UNet(nn.Module):
     def __init__(self):
         super(UNet, self).__init__()
@@ -35,15 +34,15 @@ class UNet(nn.Module):
             nn.BatchNorm2d(out_channels),
             nn.ReLU(inplace=True)
         )
-    
+
     def forward(self, image):
-        x1 = self.conv_down1(image) 
-        x2 = self.max_pool_2x2(x1)  
+        x1 = self.conv_down1(image)
+        x2 = self.max_pool_2x2(x1)
         x3 = self.conv_down2(x2)
-        x4 = self.max_pool_2x2(x3)  
+        x4 = self.max_pool_2x2(x3)
         x5 = self.conv_down3(x4)
-        x6 = self.max_pool_2x2(x5)  
-        x7 = self.conv_down4(x6)    
+        x6 = self.max_pool_2x2(x5)
+        x7 = self.conv_down4(x6)
         x8 = self.up_trans1(x7)
         x9 = torch.cat([x8, x5], dim=1)
         x10 = self.conv_up1(x9)
@@ -56,14 +55,12 @@ class UNet(nn.Module):
         output = self.out(x16)
         return output
 
-# Flask Uygulamasını başlat
+# --- Flask App ---
 app = Flask(__name__)
 
-# --- Base directory for universal paths ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# Modeli ve cihazı yükle
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 model_path = os.path.join(BASE_DIR, "unet_caries_detection.pth")
 try:
     model = UNet().to(device)
@@ -71,13 +68,12 @@ try:
     model.eval()
     print("Model loaded successfully.")
 except FileNotFoundError:
-    print(f"Error: Model file not found at {model_path}. Please place it in the project directory.")
+    print(f"Error: Model file not found at {model_path}.")
     model = None
 except Exception as e:
     print(f"Error while loading model: {e}")
     model = None
 
-# Görüntü ön işleme fonksiyonu
 def preprocess_image(img_stream):
     nparr = np.frombuffer(img_stream.read(), np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
@@ -96,7 +92,7 @@ def home():
 @app.route('/predict', methods=['POST'])
 def predict():
     if model is None:
-        return jsonify(success=False, error="Model could not be loaded. Check server console."), 500
+        return jsonify(success=False, error="Model could not be loaded. Check server logs."), 500
     if 'image' not in request.files:
         return jsonify(success=False, error="No file uploaded."), 400
 
@@ -105,7 +101,7 @@ def predict():
     file.seek(0)
     file_hash = hashlib.md5(file_content).hexdigest()
     seed = int(file_hash[:8], 16)
-    
+
     try:
         img_tensor, original_width, original_height = preprocess_image(file.stream)
         img_tensor = img_tensor.to(device)
@@ -134,7 +130,7 @@ def predict():
             random.seed(seed)
             x_rand = random.randint(50, 450)
             y_rand = random.randint(50, 450)
-            w_rand = random.randint(30, 70) 
+            w_rand = random.randint(30, 70)
             h_rand = random.randint(30, 70)
             cv2.rectangle(result_img, (x_rand, y_rand), (x_rand + w_rand, y_rand + h_rand), (0, 0, 255), 2)
             caries_detected = True
@@ -155,4 +151,5 @@ def predict():
         return jsonify(success=False, error="An error occurred during prediction."), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
